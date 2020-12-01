@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			#content{
+				width: 200px;
+				height: 200px;
+				border: 1px solid red;
+			}
+		</style>
+	</head>
+	<body>
+		<input type="text" name="" id="input" value="" placeholder="请输入内容"/>
+		<button type="button" id="btn">发送请求</button>
+		<div id="content">
+			
+		</div>
+		
+		<script type="text/javascript">
+			let input = document.querySelector('#input')
+			let btn = document.querySelector('#btn')
+			let content = document.querySelector('#content')
+			
+			let socket = new WebSocket("ws://echo.websocket.org");
+			
+			//监听socket的open事件
+			socket.addEventListener('open',function(){
+				content.innerHTML = "服务器连接成功"
+			})
+			
+			//主动给websocket服务器发送消息
+			btn.addEventListener('click',function(){
+				let value = input.value
+				socket.send(value)
+			})
+			
+			//接受websocket服务的数据
+			socket.addEventListener('message',function(e){
+				content.innerHTML = e.data
+			})
+		</script>
+	</body>
+</html>
